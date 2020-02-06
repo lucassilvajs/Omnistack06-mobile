@@ -7,7 +7,8 @@ import {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
-        paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0
+        paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+        minHeight:800
     },
     boxTile: {
         marginTop: 50,

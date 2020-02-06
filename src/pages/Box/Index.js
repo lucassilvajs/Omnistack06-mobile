@@ -29,7 +29,7 @@ export default class Box extends Component {
     }
 
     async componentDidMount() {
-        const box = '5e286531042ec00017a5ac23';//await AsyncStorage.getItem('@RocketBox:box');
+        const box = await AsyncStorage.getItem('@RocketBox:box');
         this.subscribeToNewFiles(box);
         const response = await api.get(`boxes/${box}`);
         this.setState({ box: response.data});
@@ -86,7 +86,7 @@ export default class Box extends Component {
                 });
 
                 console.log('Await')
-                const idBox = '5e286531042ec00017a5ac23';//this.state.box._id
+                const idBox = this.state.box._id
                 const resp = await api.post(`boxes/${idBox}/files`, data);
                 console.log(resp)
             }
@@ -103,10 +103,17 @@ export default class Box extends Component {
         })
     }
 
+    exitBox = async () => {
+        await AsyncStorage.removeItem('@RocketBox:box');
+        this.props.navigation.navigate("Main");
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.boxTile}>{this.state.box.title}</Text>
+                <TouchableOpacity onPress={this.exitBox}>
+                    <Text style={styles.boxTile}>{this.state.box.title}</Text>
+                </TouchableOpacity>
                 <FlatList style={styles.list}
                     data={this.state.box.files}
                     keyExtractor={file => file._id}
